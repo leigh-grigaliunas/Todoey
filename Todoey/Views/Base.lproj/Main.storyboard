@@ -41,6 +41,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Items" id="VEk-VY-AIG">
+                        <barButtonItem key="backBarButtonItem" title="Categories" id="rlU-QD-KHh" userLabel="Back Button"/>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="iof-m7-Wbq">
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
@@ -75,16 +76,16 @@
             </objects>
             <point key="canvasLocation" x="-428" y="131"/>
         </scene>
-        <!--CategoryViewController-->
+        <!--Todey-->
         <scene sceneID="U0e-lO-yni">
             <objects>
-                <tableViewController title="CategoryViewController" id="WfC-UA-5Ly" customClass="CategoryViewController" customModule="Todoey" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="WfC-UA-5Ly" customClass="CategoryViewController" customModule="Todoey" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="P63-QN-myY">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="Oft-S9-Qr1">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CategoryCell" id="Oft-S9-Qr1">
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Oft-S9-Qr1" id="WFf-mz-1cb">
