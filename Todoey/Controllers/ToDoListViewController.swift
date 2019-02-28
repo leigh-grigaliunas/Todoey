@@ -13,7 +13,7 @@ protocol ToDoListDelegate {
     
 }
 
-class ToDoListViewController: UITableViewController {
+class ToDoListViewController: SwipeTableViewController {
 
     let realm = try! Realm()
     
@@ -28,7 +28,6 @@ class ToDoListViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
     }
     
     //MARK tableView datasource methods
@@ -38,8 +37,8 @@ class ToDoListViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ToDoItemCell", for: indexPath)
+
+        let cell = super.tableView(tableView, cellForRowAt: indexPath)
         
         if let item = todoItems?[indexPath.row] {
             cell.textLabel?.text = item.title
@@ -58,7 +57,6 @@ class ToDoListViewController: UITableViewController {
         if let item = todoItems?[indexPath.row] {
             do {
                 try realm.write {
-//                    realm.delete(item)
                     item.done = !item.done
                 }
             } catch {
@@ -106,10 +104,25 @@ class ToDoListViewController: UITableViewController {
     //MARK - Model manipulation methods
     
     func loadItems() {
+        
         todoItems = selectedCategory?.items.sorted(byKeyPath: "title", ascending: true)
         tableView.reloadData()
+        
     }
     
+    // MARK: - Delete data from swipe
+    
+    override func updateModel(at indexPath: IndexPath) {
+        if let itemForDeletion = todoItems?[indexPath.row] {
+            do {
+                try self.realm.write {
+                    self.realm.delete(itemForDeletion)
+                }
+            } catch {
+                print ("Error deleting category, \(error)")
+            }
+        }
+    }
 }
 
 extension ToDoListViewController: UISearchBarDelegate {

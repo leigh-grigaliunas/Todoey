@@ -8,8 +8,9 @@
 
 import UIKit
 import RealmSwift
+import ChameleonFramework
 
-class CategoryViewController: UITableViewController, ToDoListDelegate {
+class CategoryViewController: SwipeTableViewController, ToDoListDelegate {
     
     let realm = try! Realm()
     
@@ -18,7 +19,7 @@ class CategoryViewController: UITableViewController, ToDoListDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
        
-         loadCategories()
+        loadCategories()
         
     }
 
@@ -52,13 +53,12 @@ class CategoryViewController: UITableViewController, ToDoListDelegate {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CategoryCell", for: indexPath)
+        let cell = super.tableView(tableView, cellForRowAt: indexPath)
         
-        let category = categories?[indexPath.row]
-        
-        cell.textLabel?.text = category?.name ?? "No categories added yet"
-
+        cell.textLabel?.text = categories?[indexPath.row].name ?? "No Categories Added Yet"
+        cell.backgroundColor = UIColor.randomFlat
         return cell
+        
     }
     
     // MARK: - TableView Delegate Methods
@@ -66,6 +66,7 @@ class CategoryViewController: UITableViewController, ToDoListDelegate {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         performSegue(withIdentifier: "goToItems", sender: self)
+        
     }
     
     func save(category: Category) {
@@ -75,15 +76,28 @@ class CategoryViewController: UITableViewController, ToDoListDelegate {
                 realm.add(category)
                 }
         } catch {
-            print("Error saving data to context, \(error)")
+            print("Error saving category, \(error)")
         }
-        
         tableView.reloadData()
     }
- 
+    
+    // MARK: - Delete data from swipe
+    override func updateModel(at indexPath: IndexPath) {
+        if let categoryForDeletion = self.categories?[indexPath.row] {
+            do {
+                try self.realm.write {
+                    self.realm.delete(categoryForDeletion)
+                }
+            } catch {
+                print ("Error deleting category, \(error)")
+            }
+        }
+    }
+    
     func loadCategories() {
         
         categories = realm.objects(Category.self)
+        
         tableView.reloadData()
         
     }
